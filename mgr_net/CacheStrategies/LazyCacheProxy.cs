@@ -59,8 +59,6 @@ namespace mgr_net.CacheStrategies
         
         private T GetOrAddToCache<T>(Func<T> dbMethod, string key)
         {
-            T cacheEntry;
-
             T value = _appCahe.Get<T>(key);
             if (value == null)
             {
