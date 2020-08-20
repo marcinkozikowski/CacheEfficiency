@@ -9,3 +9,7 @@ Cache implementation:
 * Redis.
 
 Everything is available from the OpenApi Swagger level.
+
+<p align="center">
+  <img src="https://github.com/marcinkozikowski/CacheEfficiency/blob/master/swagger_cache.png?raw=true" width="850"/>
+</p>
