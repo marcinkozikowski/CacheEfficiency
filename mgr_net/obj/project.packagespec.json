@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/mgr_net.csproj",
+    "projectUniqueName": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/mgr_net.csproj",
     "projectName": "mgr_net",
-    "projectPath": "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/mgr_net.csproj",
-    "outputPath": "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/obj/",
+    "projectPath": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/mgr_net.csproj",
+    "outputPath": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/obj/",
     "projectStyle": "PackageReference",
     "originalTargetFrameworks": [
       "netcoreapp3.1"

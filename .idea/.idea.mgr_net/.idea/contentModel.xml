@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="mgr_net" t="IncludeRecursive">
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CacheKeys" t="Include">
+          <e p="CacheKeys.cs" t="Include" />
+        </e>
+        <e p="CacheStrategies" t="Include">
+          <e p="CacheBaseWithLogging.cs" t="Include" />
+          <e p="Cacheless.cs" t="Include" />
+          <e p="FluentCacheProxy.cs" t="Include" />
+          <e p="ICacheProxy.cs" t="Include" />
+          <e p="LazyCacheProxy.cs" t="Include" />
+          <e p="MemoryCacheProxy.cs" t="Include" />
+          <e p="RedisCacheProxy.cs" t="Include" />
+        </e>
+        <e p="Controllers" t="Include">
+          <e p="ArticleController.cs" t="Include" />
+        </e>
+        <e p="Data" t="Include">
+          <e p="Entity" t="Include">
+            <e p="Article.cs" t="Include" />
+          </e>
+          <e p="Mappings" t="Include">
+            <e p="ArticleNhMapping.cs" t="Include" />
+          </e>
+          <e p="Repositories" t="Include">
+            <e p="ArticleRepository.cs" t="Include" />
+            <e p="IArticleRepository.cs" t="Include" />
+          </e>
+        </e>
+        <e p="DTOs" t="Include">
+          <e p="ArticleDto.cs" t="Include" />
+          <e p="ArticleDtoMapper.cs" t="Include" />
+        </e>
+        <e p="mgr_net.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="mgr_net.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+      </e>
+      <e p="mgr_net.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_mgr_net.-24126293.00" t="ExcludeRecursive" />
+  </component>
+</project>

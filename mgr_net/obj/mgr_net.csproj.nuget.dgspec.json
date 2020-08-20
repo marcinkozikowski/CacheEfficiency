@@ -1,25 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/mgr_net.csproj": {}
+    "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/mgr_net.csproj": {}
   },
   "projects": {
-    "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/mgr_net.csproj": {
+    "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/mgr_net.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/mgr_net.csproj",
+        "projectUniqueName": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/mgr_net.csproj",
         "projectName": "mgr_net",
-        "projectPath": "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/mgr_net.csproj",
+        "projectPath": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/mgr_net.csproj",
         "packagesPath": "/Users/marcin/.nuget/packages/",
-        "outputPath": "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/obj/",
+        "outputPath": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/marcin/.nuget/NuGet/NuGet.Config"
+          "/Users/marcin/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "http://nuget.nob.pib.nask.pl/v3/index.json": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
