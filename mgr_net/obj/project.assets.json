@@ -6184,13 +6184,12 @@
       "outputPath": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/marcin/.config/NuGet/NuGet.Config"
+        "/Users/marcin/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "http://nuget.nob.pib.nask.pl/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using mgr_net.Entity;
 
 namespace mgr_net.Repositories
@@ -23,14 +24,14 @@ namespace mgr_net.Repositories
         /// </summary>
         /// <param name="surname">Autoh surname</param>
         /// <returns>List of Articles</returns>
-        public IEnumerable<Article> GetBySurname(string surname);
+        public IEnumerable<Article> GetByName(string surname);
 
         /// <summary>
         /// Gets Article by it`s topic
         /// </summary>
         /// <param name="articleTopic">Article topic</param>
         /// <returns>Article</returns>
-        public Article GetByTopic(string articleTopic);
+        public string GetByTopic(string articleTopic);
 
         /// <summary>
         /// Gets number of articles written by specyfied author

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using FluentCache;
 using mgr_net.DTOs;
 using mgr_net.Entity;
@@ -11,50 +13,67 @@ namespace mgr_net.CacheStrategies
     public abstract class CacheBaseWithLogging : ICacheProxy
     {
         private string CacheStrategyName { get;}
+        private Stopwatch watch { get; set; }
 
         private bool IsLogginEneable { get; set; }
 
         protected CacheBaseWithLogging(string cacheStrategyName)
         {
             CacheStrategyName = cacheStrategyName;
-            IsLogginEneable = false;
+            IsLogginEneable = true;
+            watch = new Stopwatch();
         }
 
         public virtual IEnumerable<ArticleDto> Get()
         {
-            LogInfo($"Get All records by {CacheStrategyName}");
+            LogInfo();
+            //LogInfo($"Get All records by {CacheStrategyName}");
             return null;
         }
 
         public virtual ArticleDto GetById(int id)
         {
-            LogInfo($"Get by article id: {id} by {CacheStrategyName}");
+            //LogInfo($"Get by article id: {id} by {CacheStrategyName}");
+            LogInfo();
             return null;
         }
 
-        public virtual IEnumerable<ArticleDto> GetBySurname(string surname)
+        public virtual IEnumerable<ArticleDto> GetByName(string surname)
         {
-            LogInfo($"Get Article by Author surname {surname} by {CacheStrategyName}");
+            LogInfo();
+            //LogInfo($"Get Article by Author surname {surname} by {CacheStrategyName}");
             return null;
         }
 
-        public virtual ArticleDto GetByTopic(string articleTopic)
+        public virtual string GetByTopic(string articleTopic)
         {
-            LogInfo($"Get articles by topic: {articleTopic} by {CacheStrategyName}");
+            LogInfo();
+            //LogInfo($"Get articles by topic: {articleTopic} by {CacheStrategyName}");
             return null;
         }
 
         public virtual int GetNumOfAuthorArticles(string name, string surname)
         {
-            LogInfo($"Get number of articles by {CacheStrategyName}");
+            LogInfo();
+            //LogInfo($"Get number of articles by {CacheStrategyName}");
             return 0;
         }
 
-        private void LogInfo(string logInformation)
+        public void StopWatch()
+        {
+            if (watch != null && IsLogginEneable)
+            {
+                watch.Stop();
+                Console.WriteLine(DateTimeOffset.Now.ToUnixTimeMilliseconds()+"\t"+(watch.ElapsedTicks * 1000000000 / Stopwatch.Frequency));
+            }
+        }
+
+        private void LogInfo(string logInformation="")
         {
             if (IsLogginEneable)
             {
-                Console.WriteLine(logInformation);
+                watch.Start();
+                Console.Write(logInformation);
             }
         }
     }

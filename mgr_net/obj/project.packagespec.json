@@ -10,7 +10,6 @@
       "netcoreapp3.1"
     ],
     "sources": {
-      "http://nuget.nob.pib.nask.pl/v3/index.json": {},
       "https://api.nuget.org/v3/index.json": {}
     },
     "frameworks": {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using mgr_net.DTOs;
 using mgr_net.Entity;
 using mgr_net.Repositories;
@@ -24,25 +25,33 @@ namespace mgr_net.CacheStrategies
         public override ArticleDto GetById(int id)
         {
             base.GetById(id);
-            return ArticleDtoMapper.MapFrom(_articleRepository.GetById(id));
+            var result =  ArticleDtoMapper.MapFrom(_articleRepository.GetById(id));
+            StopWatch();
+            return result;
         }
 
-        public override IEnumerable<ArticleDto> GetBySurname(string surname)
+        public override IEnumerable<ArticleDto> GetByName(string surname)
         {
-            base.GetBySurname(surname);
-            return _articleRepository.GetBySurname(surname).Select(x=>ArticleDtoMapper.MapFrom(x));
+            base.GetByName(surname);
+            var result = _articleRepository.GetByName(surname).Select(x=>ArticleDtoMapper.MapFrom(x));
+            StopWatch();
+            return result;
         }
 
-        public override ArticleDto GetByTopic(string articleTopic)
+        public override string GetByTopic(string articleTopic)
         {
             base.GetByTopic(articleTopic);
-            return ArticleDtoMapper.MapFrom(_articleRepository.GetByTopic(articleTopic));
+            var result = _articleRepository.GetByTopic(articleTopic);
+            StopWatch();
+            return result;
         }
 
         public override int GetNumOfAuthorArticles(string name, string surname)
         {
             base.GetNumOfAuthorArticles(name, surname);
-            return _articleRepository.GetNumOfAuthorArticles(name, surname);
+            var result = _articleRepository.GetNumOfAuthorArticles(name, surname);
+            StopWatch();
+            return result;
         }
     }
 }

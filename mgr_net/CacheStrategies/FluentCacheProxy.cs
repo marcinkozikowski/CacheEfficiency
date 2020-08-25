@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentCache;
 using mgr_net.DTOs;
 using mgr_net.Repositories;
@@ -24,30 +25,38 @@ namespace mgr_net.CacheStrategies
         {
             base.Get();
             var result = GetOrAddToCache(() => _articleRepository.Get(), CacheKeys.GetAll);
-            return result.Select(x => ArticleDtoMapper.MapFrom(x));
+            var resultDto = result.Select(x => ArticleDtoMapper.MapFrom(x));
+            StopWatch();
+            return resultDto;
         }
 
         public override ArticleDto GetById(int id)
         {
             base.GetById(id);
             var result = GetOrAddToCache(() => _articleRepository.GetById(id), CacheKeys.GetById + id);
-
-            return ArticleDtoMapper.MapFrom(result);
+            
+            var resultDto = ArticleDtoMapper.MapFrom(result);
+            StopWatch();
+            return resultDto;
         }
 
-        public override IEnumerable<ArticleDto> GetBySurname(string surname)
+        public override IEnumerable<ArticleDto> GetByName(string surname)
         {
-            base.GetBySurname(surname);
-            var result = GetOrAddToCache(() => _articleRepository.GetBySurname(surname), CacheKeys.GetBySurname + surname);
-            return result.Select(x => ArticleDtoMapper.MapFrom(x));
+            base.GetByName(surname);
+            var result = GetOrAddToCache(() => _articleRepository.GetByName(surname), CacheKeys.GetBySurname + surname);
+            var resultDto = result.Select(x => ArticleDtoMapper.MapFrom(x));
+            StopWatch();
+            return resultDto;
         }
 
-        public override ArticleDto GetByTopic(string articleTopic)
+        public override string GetByTopic(string articleTopic)
         {
             base.GetByTopic(articleTopic);
             var result = GetOrAddToCache(() => _articleRepository.GetByTopic(articleTopic), CacheKeys.GetByTopic + articleTopic);
             
-            return ArticleDtoMapper.MapFrom(result);
+            var resultDto = result;
+            StopWatch();
+            return resultDto;
         }
 
         public override int GetNumOfAuthorArticles(string name, string surname)
@@ -55,6 +64,7 @@ namespace mgr_net.CacheStrategies
             base.GetNumOfAuthorArticles(name, surname);
             var result = GetOrAddToCache(() => _articleRepository.GetNumOfAuthorArticles(name,surname), CacheKeys.NumOfArticles + name+surname);
             
+            StopWatch();
             return result;
         }
         
@@ -68,13 +78,15 @@ namespace mgr_net.CacheStrategies
             }
             catch
             {
-                if (cacheEntry == null)
+                if (cacheEntry == null || cacheEntry.Equals(default(T)))
                 {
                     // Key not in cache, so get data.
                     cacheEntry = dbMethod();
-
-                    _fluentCache.Set(key, CacheKeys.FluentCahceRegionKey, cacheEntry,
-                        new CacheExpiration());
+                    if (cacheEntry != null)
+                    {
+                        _fluentCache.Set(key, CacheKeys.FluentCahceRegionKey, cacheEntry,
+                            new CacheExpiration());
+                    }
                 }
             }
 

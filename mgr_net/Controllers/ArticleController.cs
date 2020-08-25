@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using mgr_net.DTOs;
@@ -15,40 +16,40 @@ namespace mgr_net.Controllers
     [Route("[controller]")]
     public class ArticleController : ControllerBase
     {
-        private readonly ISession _session;
         private readonly ICacheProxy _cacheProxy;
 
-        public ArticleController(ISession session,ICacheProxy cacheProxy)
+        public ArticleController(ICacheProxy cacheProxy)
         {
-            _session = session;
             _cacheProxy = cacheProxy;
         }
 
-        [HttpGet("/all")]
+        [HttpGet("/rest/article/all")]
         public IEnumerable<ArticleDto> Get()
         {
             return _cacheProxy.Get();
         }
         
-        [HttpGet("/id/{id}")]
+        [HttpGet("/rest/article/id/{id}")]
         public ArticleDto GetById(int id)
         {
-            return _cacheProxy.GetById(id);
+            var result = _cacheProxy.GetById(id);
+            return result;
+
         }
         
-        [HttpGet("/article/authorsurname/{surname}")]
+        [HttpGet("/rest/article/name/{surname}")]
         public IEnumerable<ArticleDto> GetBySurname(string surname)
         {
-            return _cacheProxy.GetBySurname(surname);
+            return _cacheProxy.GetByName(surname);
         }
         
-        [HttpGet("/topic/author/{articleTopic}")]
-        public ArticleDto GetByTopic(string articleTopic)
+        [HttpGet("/rest/topic/author/{articleTopic}")]
+        public string GetByTopic(string articleTopic)
         {
             return _cacheProxy.GetByTopic(articleTopic);
         }
         
-        [HttpGet("/articlesnum/authorname/{name}/authorsurname/{surname}")]
+        [HttpGet("/rest/articlesnum/authorname/{name}/authorsurname/{surname}")]
         public int GetNumOfAuthorArticles(string name, string surname)
         {
             return _cacheProxy.GetNumOfAuthorArticles(name, surname);

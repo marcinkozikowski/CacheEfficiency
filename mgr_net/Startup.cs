@@ -10,10 +10,12 @@ using mgr_net.Mappings;
 using mgr_net.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace mgr_net
 {
@@ -30,35 +32,36 @@ namespace mgr_net
         public void ConfigureServices(IServiceCollection services)
         {
             var cacheStrategy = Configuration.GetValue<string>("cache");
-
+            // services.Configure<KestrelServerOptions>(
+            //     Configuration.GetSection("Kestrel"));
             
             services.AddControllers();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             
-            if (cacheStrategy == "fluent")
+            if (cacheStrategy?.ToLower() == "fluent")
             {
                 AddFluentCache(services);
                 Console.WriteLine("Running with FluentCache Strategy");
             }
-            else if (cacheStrategy == "lazy")
+            else if (cacheStrategy?.ToLower() == "lazy")
             {
                 Console.WriteLine("Running with LazyCache Strategy");
                 services.AddScoped<ICacheProxy, LazyCacheProxy>();
-                services.AddSingleton<IAppCache, CachingService>();
+                services.AddScoped<IAppCache, CachingService>();
             }
-            else if (cacheStrategy == "memory")
+            else if (cacheStrategy?.ToLower() == "memory")
             {
                 AddMemoryCache(services);
                 Console.WriteLine("Running with MemoryCache Strategy");
             }
-            else if (cacheStrategy == "redis")
+            else if (cacheStrategy?.ToLower() == "redis")
             {
                 Console.WriteLine("Running with RedisCache Strategy");
                 services.AddScoped<ICacheProxy, RedisCacheProxy>();
                 services.AddDistributedRedisCache(option =>
                 {
-                    option.Configuration = "127.0.0.1";
-                    option.InstanceName = "master";
+                    option.Configuration = "127.0.0.1:6379";
+                    option.ConfigurationOptions.ConnectTimeout = 10;
                 });
             }
             else
@@ -78,7 +81,7 @@ namespace mgr_net
                     .BuildSessionFactory();
             }); 
 
-            services.AddSingleton<NHibernate.ISession>(factory =>
+            services.AddScoped<NHibernate.ISession>(factory =>
                 factory
                     .GetServices<NHibernate.ISessionFactory>()
                     .First()
@@ -127,11 +130,11 @@ namespace mgr_net
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             

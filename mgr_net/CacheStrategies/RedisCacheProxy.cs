@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using mgr_net.DTOs;
 using mgr_net.Entity;
 using mgr_net.Repositories;
@@ -32,7 +34,9 @@ namespace mgr_net.CacheStrategies
                 serializedValue = JsonSerializer.Serialize(articleEntity);
                 _distributedCache.SetString(CacheKeys.GetAll,serializedValue);
             }
-            return JsonSerializer.Deserialize<IEnumerable<Article>>(serializedValue).Select(x=>ArticleDtoMapper.MapFrom(x));
+            var resultDto = JsonSerializer.Deserialize<IEnumerable<Article>>(serializedValue).Select(x=>ArticleDtoMapper.MapFrom(x));
+            StopWatch();
+            return resultDto;
         }
 
         public override ArticleDto GetById(int id)
@@ -45,33 +49,40 @@ namespace mgr_net.CacheStrategies
                 serializedValue = JsonSerializer.Serialize(articleEntity);
                 _distributedCache.SetString(CacheKeys.GetById+id,serializedValue);
             }
-            return ArticleDtoMapper.MapFrom(JsonSerializer.Deserialize<Article>(serializedValue));
+
+            var result = ArticleDtoMapper.MapFrom(JsonSerializer.Deserialize<Article>(serializedValue));
+            StopWatch();
+            return result;
         }
 
-        public override IEnumerable<ArticleDto> GetBySurname(string surname)
+        public override IEnumerable<ArticleDto> GetByName(string surname)
         {
-            base.GetBySurname(surname);
+            base.GetByName(surname);
             var serializedValue = _distributedCache.GetString(CacheKeys.GetBySurname + surname);
             if (string.IsNullOrEmpty(serializedValue))
             {
-                var articleEntity = _articleRepository.GetBySurname(surname);
+                var articleEntity = _articleRepository.GetByName(surname);
                 serializedValue = JsonSerializer.Serialize(articleEntity);
                 _distributedCache.SetString(CacheKeys.GetBySurname+surname,serializedValue);
             }
-            return JsonSerializer.Deserialize<IEnumerable<Article>>(serializedValue).Select(x=>ArticleDtoMapper.MapFrom(x));
+            var result =  JsonSerializer.Deserialize<IEnumerable<Article>>(serializedValue).Select(x=>ArticleDtoMapper.MapFrom(x));
+            StopWatch();
+            return result;
         }
 
-        public override ArticleDto GetByTopic(string articleTopic)
+        public override string GetByTopic(string articleTopic)
         {
             base.GetByTopic(articleTopic);
             var serializedValue = _distributedCache.GetString(CacheKeys.GetByTopic + articleTopic);
             if (string.IsNullOrEmpty(serializedValue))
             {
                 var articleEntity = _articleRepository.GetByTopic(articleTopic);
-                serializedValue = JsonSerializer.Serialize(articleEntity);
-                _distributedCache.SetString(CacheKeys.GetByTopic+articleTopic,serializedValue);
+                serializedValue = articleEntity;
+                _distributedCache.SetString(CacheKeys.GetByTopic+articleTopic,articleEntity);
             }
-            return ArticleDtoMapper.MapFrom(JsonSerializer.Deserialize<Article>(serializedValue));
+            var result = serializedValue;
+            StopWatch();
+            return result;
         }
 
         public override int GetNumOfAuthorArticles(string name, string surname)
@@ -84,7 +95,7 @@ namespace mgr_net.CacheStrategies
                 serializedValue = articleEntity.ToString();
                 _distributedCache.SetString(CacheKeys.NumOfArticles+name+surname,serializedValue);
             }
-
+            StopWatch();
             return int.Parse(serializedValue);
         }
     }

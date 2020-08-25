@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lD/P3O8GsTfTFCWACmbKnPW2HIxgzQdxjYPNVEGUoLTYvI3qOKpFDPShHtt7KQ82uVIgr3bz5FfLgjpSWExjnA==",
+  "dgSpecHash": "JEgwj9EC+6+0FMjoPVerhnzGubuhAIYnxo3MkI1x6HE6AnUcMC2mO4SkHdG2E5gM7xMIgwt0nR5hFuEi1L+Mnw==",
   "success": true,
-  "projectFilePath": "/Users/marcin/Documents/C# Projects/mgr_net/mgr_net/mgr_net.csproj",
+  "projectFilePath": "/Users/marcin/Documents/C# Projects/CacheEfficiency/mgr_net/mgr_net.csproj",
   "expectedPackageFiles": [
     "/Users/marcin/.nuget/packages/antlr3.runtime/3.5.1/antlr3.runtime.3.5.1.nupkg.sha512",
     "/Users/marcin/.nuget/packages/fluentcache/4.0.0.2/fluentcache.4.0.0.2.nupkg.sha512",

@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using mgr_net.DTOs;
+using mgr_net.Entity;
 using mgr_net.Repositories;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -11,48 +14,57 @@ namespace mgr_net.CacheStrategies
     {
         private readonly IMemoryCache _memoryCache;
         private readonly IArticleRepository _articleRepository;
-        
-        public MemoryCacheProxy(IArticleRepository articleRepository,IMemoryCache memoryCache) : base("MemoryCache Strategy")
+
+        public MemoryCacheProxy(IArticleRepository articleRepository, IMemoryCache memoryCache) : base(
+            "MemoryCache Strategy")
         {
             _articleRepository = articleRepository;
             _memoryCache = memoryCache;
         }
-
+        
         public override IEnumerable<ArticleDto> Get()
         {
             base.Get();
             var result = GetOrAddToCache(() => _articleRepository.Get(), CacheKeys.GetAll);
-            return result.Select(x => ArticleDtoMapper.MapFrom(x));
+            var resultDto = result.Select(x => ArticleDtoMapper.MapFrom(x));
+            StopWatch();
+            return resultDto;
         }
 
         public override ArticleDto GetById(int id)
         {
             base.GetById(id);
-            var result = GetOrAddToCache(() => _articleRepository.GetById(id), CacheKeys.GetById + id);
-
-            return ArticleDtoMapper.MapFrom(result);
+             var result = GetOrAddToCache(() => _articleRepository.GetById(id), CacheKeys.GetById + id);
+            
+             var resultDto = ArticleDtoMapper.MapFrom(result);
+             StopWatch();
+             return resultDto;
         }
 
-        public override IEnumerable<ArticleDto> GetBySurname(string surname)
+        public override IEnumerable<ArticleDto> GetByName(string surname)
         {
-            base.GetBySurname(surname);
-            var result = GetOrAddToCache(() => _articleRepository.GetBySurname(surname), CacheKeys.GetBySurname + surname);
-            return result.Select(x => ArticleDtoMapper.MapFrom(x));
+            base.GetByName(surname);
+            var result = GetOrAddToCache(() => _articleRepository.GetByName(surname), CacheKeys.GetBySurname + surname);
+            var resultDto= result.Select(x => ArticleDtoMapper.MapFrom(x));
+            StopWatch();
+            return resultDto;
         }
 
-        public override ArticleDto GetByTopic(string articleTopic)
+        public override string GetByTopic(string articleTopic)
         {
             base.GetByTopic(articleTopic);
             var result = GetOrAddToCache(() => _articleRepository.GetByTopic(articleTopic), CacheKeys.GetByTopic + articleTopic);
-            
-            return ArticleDtoMapper.MapFrom(result);
+            var reslutDto = result;
+            StopWatch();
+            return reslutDto;
         }
 
         public override int GetNumOfAuthorArticles(string name, string surname)
         {
-            base.GetNumOfAuthorArticles(name,surname);
+
+            base.GetNumOfAuthorArticles(name, surname);
             var result = GetOrAddToCache(() => _articleRepository.GetNumOfAuthorArticles(name,surname), CacheKeys.NumOfArticles + name+surname);
-            
+            StopWatch();
             return result;
         }
 
@@ -64,13 +76,17 @@ namespace mgr_net.CacheStrategies
             if (!_memoryCache.TryGetValue(key, out cacheEntry))
             {
                 // Key not in cache, so get data.
+                //Console.WriteLine("Going to DB for data");
                 cacheEntry = dbMethod();
 
                 // Set cache options.
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(10));
-                
-                // Save data in cache.
-                _memoryCache.Set(key, cacheEntry, cacheEntryOptions);
+
+                if (cacheEntry != null)
+                {
+                    // Save data in cache.
+                    _memoryCache.Set(key, cacheEntry, cacheEntryOptions);
+                }
             }
 
             return cacheEntry;

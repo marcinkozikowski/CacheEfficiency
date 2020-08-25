@@ -1,3 +1,4 @@
+using System;
 using mgr_net.Entity;
 
 namespace mgr_net.DTOs
@@ -11,15 +12,20 @@ namespace mgr_net.DTOs
         /// <returns>Article DTO</returns>
         public static ArticleDto MapFrom(Article input)
         {
+            if (input == null)
+            {
+                return new ArticleDto();
+            }
+            
             return new ArticleDto()
             {
-                Contents = input.Contents,
+                Contents = input?.Contents,
                 Length = input.Length,
                 Created = input.Created,
-                Summary = input.Summary,
-                Topic = input.Topic,
-                AuthorName = input.AuthorName,
-                AuthorSurname = input.AuthorSurname,
+                Summary = input?.Summary,
+                Topic = input?.Topic,
+                AuthorName = input?.AuthorName,
+                AuthorSurname = input?.AuthorSurname,
             };
         }
     }
